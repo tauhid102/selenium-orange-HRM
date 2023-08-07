@@ -1,22 +1,20 @@
 package utils;
 
 import com.github.javafaker.Faker;
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.List;
 
 public class Utils {
@@ -81,7 +79,13 @@ public class Utils {
         WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(time_seconds));
         wait.until(ExpectedConditions.visibilityOf(element));
     }
-
+   public void takeScreenSHot(WebDriver driver) throws IOException {
+        File screenshotFIle=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        String time=  new SimpleDateFormat("dd-MM-yyyy-mm-ss-aa").format(new Date());
+        String fileWIthpath= "./src/test/resource/screenshots/"+time+".png";
+        File Desfile=new File(fileWIthpath);
+        FileUtils.copyFile(screenshotFIle,Desfile);
+   }
 
 
 }
